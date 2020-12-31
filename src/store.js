@@ -1,11 +1,9 @@
 import {
-  configure,
   action,
   observable,
   runInAction,
-  flow,
-  decorate,
   makeObservable,
+  extendObservable,
 } from "mobx";
 
 // Imp 1
@@ -63,14 +61,32 @@ class WeatherAsycAwait {
 
   weather = {};
   loadWeather = async (city) => {
-    const response = await fetch(
-      `https://abnormal-weather-api.herokuapp.com/cities/search?city=${city}`
-    );
-    const data = await response.json();
+    const data = await (
+      await fetch(
+        `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=bb476bd98204485c1cee40f10ae9a686`
+      )
+    ).json();
 
     runInAction(() => (this.weather = data));
   };
 }
 
-const store = new WeatherInAction();
+// 4th Imp
+
+function WeatherExtendObservable() {
+  extendObservable(this, {
+    weather: {},
+    loadWeather: async (city) => {
+      const data = await (
+        await fetch(
+          `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=bb476bd98204485c1cee40f10ae9a686`
+        )
+      ).json();
+
+      runInAction(() => (this.weather = data));
+    },
+  });
+}
+
+const store = new WeatherExtendObservable();
 export default store;
