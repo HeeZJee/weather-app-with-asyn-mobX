@@ -3,7 +3,7 @@ import { observer, inject } from "mobx-react";
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.store.loadWeather("Toronto,ON, Canada");
+    this.props.store.loadWeather("Karachi,PK, Pakistan");
   }
 
   render() {

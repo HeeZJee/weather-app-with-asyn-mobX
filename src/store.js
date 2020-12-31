@@ -40,7 +40,6 @@ class WeatherInAction {
   constructor() {
     makeObservable(this, {
       weather: observable,
-      setWeather: action,
     });
   }
 
@@ -52,9 +51,24 @@ class WeatherInAction {
       .then((response) => response.json())
       .then((data) => runInAction(() => (this.weather = data)));
   };
+}
 
-  setWeather = (data) => {
-    this.weather = data;
+// 3rd Imp
+class WeatherAsycAwait {
+  constructor() {
+    makeObservable(this, {
+      weather: observable,
+    });
+  }
+
+  weather = {};
+  loadWeather = async (city) => {
+    const response = await fetch(
+      `https://abnormal-weather-api.herokuapp.com/cities/search?city=${city}`
+    );
+    const data = await response.json();
+
+    runInAction(() => (this.weather = data));
   };
 }
 
