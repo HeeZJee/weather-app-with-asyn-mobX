@@ -1,5 +1,6 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
+import "./App.css";
 
 class App extends React.Component {
   state = {
@@ -32,6 +33,7 @@ class App extends React.Component {
     const weather = this.props.store.weather;
     return (
       <div>
+        <h2>Weather App</h2>
         <form onClick={this.handleSearch}>
           <input
             type="text"
